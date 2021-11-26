@@ -1,11 +1,15 @@
 {
-  "name": "docker_web_app",
-  "version": "1.0.0",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "express": "^4.16.4"
+    "name": "vue-electron-todolist-api",
+    "version": "1.0.0",
+    "description": "A simple Nodejs API",
+    "main": "server.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "node server.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "express": "^4.16.4"
+    }
   }
-}
