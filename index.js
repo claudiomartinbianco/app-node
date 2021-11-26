@@ -26,7 +26,8 @@ const save = () => {
 };
 
 app.get("/", (req, res) => {
-  res.json(process.env.NODE_ENV);
+  // res.json(process.env.NODE_ENV);
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.get("/products", (req, res) => {
