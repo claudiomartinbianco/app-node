@@ -1,27 +1,151 @@
-<!DOCTYPE html>
-<html>
-<script src="/scripts/angular.min.js"></script>
+<!DOCTYPE HTML>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8"/>
+    <title>AngularJS Inline Table Add, Edit and Delete using PHP MySQL - softAOX</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+</head>
 <body>
-
-<div ng-app="myApp" ng-controller="customersCtrl"> 
-
-<ul>
-  <li ng-repeat="x in myData">
-    {{ x.uuid + ' - ' + x.product + ' - ' + x.price }}
-  </li>
-</ul>
-
-</div>
-
-<script>
-var app = angular.module('myApp', []);
-app.controller('customersCtrl', function($scope, $http) {
-  $http.get("products").then(function (response) {
-      // $scope.myData = response.data.records;
-      $scope.myData = response.data;
-  });
-});
-</script>
-
+    <div class="container">
+        <br />
+        <h3 align="center">AngularJS Inline Table Add, Edit and Delete using PHP MySQL</h3>
+        <br />
+        <div class="table-responsive" ng-app="myApp" ng-controller="crudController" ng-init="fetchData()">
+            <div class="alert alert-success alert-dismissible" ng-show="success">
+                <a href="#" class="close" data-dismiss="alert" ng-click="closeMsg()" aria-label="close">&times;</a> {{displayMessage}}
+            </div>
+            <form name="myform" ng-submit="insertData()">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th><em class="fa fa-cog"></em></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="text" ng-model="addData.username" class="form-control" placeholder="Enter your name" ng-required="true" />
+                            </td>
+                            <td>
+                                <input type="email" ng-model="addData.user_email" class="form-control" placeholder="Enter your email" ng-required="true" />
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-success btn-sm" ng-disabled="myform.$invalid"><em class="fa fa-plus"></em></button>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="data in namesData" ng-include="getTemplate(data)">
+                        </tr>
+ 
+                    </tbody>
+                </table>
+            </form>
+            <script type="text/ng-template" id="display">
+                <td>{{data.product}}</td>
+                <td>{{data.price}}</td>
+                <td>
+                    <a class="btn btn-default" ng-click="showEdit(data)"><em class="fa fa-pencil"></em></a>
+                    <a class="btn btn-danger" ng-click="deleteData(data.id)"><em class="fa fa-trash"></em></a>
+                </td>
+            </script>
+            <script type="text/ng-template" id="edit">
+                <td>
+                    <input type="text" ng-model="formData.username" class="form-control" />
+                </td>
+                <td>
+                    <input type="email" ng-model="formData.user_email" class="form-control" />
+                </td>
+                <td>
+                    <input type="hidden" ng-model="formData.data.id" />
+                    <a class="btn btn-success" ng-click="editData()"><em class="fa fa-save"></em></a>
+                    <a class="btn btn-danger" ng-click="reset()"><em class="fa fa-times"></em></a>
+                </td>
+            </script>
+        </div>
+    </div>
+ 
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script>
+        var app = angular.module('myApp', []);
+ 
+        app.controller('crudController', function($scope, $http) {
+ 
+            $scope.formData = {};
+            $scope.addData = {};
+            $scope.success = false;
+ 
+            $scope.getTemplate = function(data) {
+                if (data.id === $scope.formData.id) {
+                    return 'edit';
+                } else {
+                    return 'display';
+                }
+            };
+ 
+            $scope.fetchData = function() {
+                $http.get('products').success(function(data) {
+                    $scope.namesData = data;
+                });
+            };
+ 
+            $scope.insertData = function() {
+                $http({
+                    method: "POST",
+                    url: "insert.php",
+                    data: $scope.addData,
+                }).success(function(data) {
+                    $scope.success = true;
+                    $scope.displayMessage = data.message;
+                    $scope.fetchData();
+                    $scope.addData = {};
+                });
+            };
+ 
+            $scope.showEdit = function(data) {
+                $scope.formData = angular.copy(data);
+            };
+ 
+            $scope.editData = function() {
+                $http({
+                    method: "POST",
+                    url: "edit.php",
+                    data: $scope.formData,
+                }).success(function(data) {
+                    $scope.success = true;
+                    $scope.displayMessage = data.message;
+                    $scope.fetchData();
+                    $scope.formData = {};
+                });
+            };
+ 
+            $scope.reset = function() {
+                $scope.formData = {};
+            };
+ 
+            $scope.closeMsg = function() {
+                $scope.success = false;
+            };
+ 
+            $scope.deleteData = function(id) {
+                if (confirm("Are you sure you want to delete?")) {
+                    $http({
+                        method: "POST",
+                        url: "delete.php",
+                        data: {
+                            'id': id
+                        }
+                    }).success(function(data) {
+                        $scope.success = true;
+                        $scope.displayMessage = data.message;
+                        $scope.fetchData();
+                    });
+                }
+            };
+ 
+        });
+    </script>
 </body>
+ 
 </html>

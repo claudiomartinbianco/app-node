@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<script src="/scripts/angular.min.js"></script>
+<body>
+
+<div ng-app="myApp" ng-controller="customersCtrl"> 
+
+<ul>
+  <li ng-repeat="x in myData">
+    {{ x.uuid + ' - ' + x.product + ' - ' + x.price }}
+  </li>
+</ul>
+
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('customersCtrl', function($scope, $http) {
+  $http.get("products").then(function (response) {
+      // $scope.myData = response.data.records;
+      $scope.myData = response.data;
+  });
+});
+</script>
+
+</body>
+</html>
