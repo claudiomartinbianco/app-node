@@ -17,7 +17,8 @@
 var app = angular.module('myApp', []);
 app.controller('customersCtrl', function($scope, $http) {
   $http.get("products").then(function (response) {
-      $scope.myData = response.data.records;
+      // $scope.myData = response.data.records;
+      $scope.myData = response.data;
   });
 });
 </script>
