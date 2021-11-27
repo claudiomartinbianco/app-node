@@ -7,7 +7,7 @@
 
 <ul>
   <li ng-repeat="x in myData">
-    {{ x.Name + ', ' + x.Country }}
+    {{ x.uuid + ' , ' + x.product + ' , ' + x.price }}
   </li>
 </ul>
 
@@ -16,7 +16,7 @@
 <script>
 var app = angular.module('myApp', []);
 app.controller('customersCtrl', function($scope, $http) {
-  $http.get("https://www.w3schools.com/angular/customers.php").then(function (response) {
+  $http.get("products").then(function (response) {
       $scope.myData = response.data.records;
   });
 });
