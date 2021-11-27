@@ -100,7 +100,7 @@
             $scope.insertData = function() {
                 $http({
                     method: "POST",
-                    url: "insert.php",
+                    url: "products",
                     data: $scope.addData,
                 }).success(function(data) {
                     $scope.success = true;
@@ -116,8 +116,8 @@
  
             $scope.editData = function() {
                 $http({
-                    method: "POST",
-                    url: "edit.php",
+                    method: "PUT",
+                    url: "products/" + $scope.formData.uuid,
                     data: $scope.formData,
                 }).success(function(data) {
                     $scope.success = true;
@@ -138,10 +138,10 @@
             $scope.deleteData = function(id) {
                 if (confirm("Are you sure you want to delete?")) {
                     $http({
-                        method: "POST",
-                        url: "delete.php",
+                        method: "DELETE",
+                        url: "products/" + id,
                         data: {
-                            'id': id
+                            'uuid': id
                         }
                     }).success(function(data) {
                         $scope.success = true;
