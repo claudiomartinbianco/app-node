@@ -77,7 +77,7 @@
             $scope.success = false;
  
             $scope.getTemplate = function(data) {
-                if (data.id === $scope.formData.id) {
+                if (data.uuid === $scope.formData.id) {
                     return 'edit';
                 } else {
                     return 'display';
