@@ -1,47 +1,26 @@
-<!DOCTYPE HTML>
-<html lang = “pt-br” >
-<head>
-<meta charset = “utf-8” />
-<meta content = “width=device-width, initial-scale=1, maximum-scale=1” name = “viewport” >
-<title> Page Title (Basic structure of a page with HTML 5) </title>
-<link href = “css/stylesheet.css” rel = “stylesheet” />
-<script src = “scripts/script.js” ></script>
-</head>
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <body>
-<header>
-<nav>
+
+<div ng-app="myApp" ng-controller="customersCtrl"> 
+
 <ul>
-<li> Home </li>
-<li> Contact </li>
+  <li ng-repeat="x in myData">
+    {{ x.Name + ', ' + x.Country }}
+  </li>
 </ul>
-</nav>
-</header>
- 
-<section>
-<article>
-<header>
-<h2> The title of the article is here </h2>
-<p> Posted in <time datetime = “2015-03-09T13:00:24+01:00” > March 9, 2015 </time> by <a href = “#” > Author </a> – < a href = “#comments” > 30 comments </a></p>
-</header>
-<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incident ut labore et dolore magna aliqua. </p>
-</article>
- 
-<article>
-<header>
-<h2> The title of the article is here </h2>
-<p> Posted in <time datetime = “2015-03-09T13:00:24+01:00” > March 9, 2015 </time> by <a href = “#” > Author </a> – < a href = “#comments” > 15 comments </a></p>
-</header>
-<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incident ut labore et dolore magna aliqua. </p>
-</article>
-</section>
- 
-<aside>
-<h2> Get in touch </h2>
-<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incident ut labore et dolore magna aliqua. </p>
-</aside>
- 
-<footer>
-<p> Copyright 2015 Source Code© </p>
-</footer>
+
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('customersCtrl', function($scope, $http) {
+  $http.get("https://www.w3schools.com/angular/customers.php").then(function (response) {
+      $scope.myData = response.data.records;
+  });
+});
+</script>
+
 </body>
 </html>
