@@ -27,10 +27,13 @@
                     <tbody>
                         <tr>
                             <td>
-                                <input type="text" ng-model="addData.username" class="form-control" placeholder="Enter your name" ng-required="true" />
+                                <input type="text" ng-model="addData.uuid" class="form-control" placeholder="Enter your name" ng-required="true" />
+                            </td>                            
+                            <td>
+                                <input type="text" ng-model="addData.product" class="form-control" placeholder="Enter your name" ng-required="true" />
                             </td>
                             <td>
-                                <input type="email" ng-model="addData.user_email" class="form-control" placeholder="Enter your email" ng-required="true" />
+                                <input type="email" ng-model="addData.price" class="form-control" placeholder="Enter your email" ng-required="true" />
                             </td>
                             <td>
                                 <button type="submit" class="btn btn-success btn-sm" ng-disabled="myform.$invalid"><em class="fa fa-plus"></em></button>
@@ -43,22 +46,26 @@
                 </table>
             </form>
             <script type="text/ng-template" id="display">
+                <td>{{data.uuid}}</td>
                 <td>{{data.product}}</td>
                 <td>{{data.price}}</td>
                 <td>
                     <a class="btn btn-default" ng-click="showEdit(data)"><em class="fa fa-pencil"></em></a>
-                    <a class="btn btn-danger" ng-click="deleteData(data.id)"><em class="fa fa-trash"></em></a>
+                    <a class="btn btn-danger" ng-click="deleteData(data.uuid)"><em class="fa fa-trash"></em></a>
                 </td>
             </script>
             <script type="text/ng-template" id="edit">
                 <td>
-                    <input type="text" ng-model="formData.username" class="form-control" />
+                    <input type="text" ng-model="formData.uuid" class="form-control" />
+                </td>                
+                <td>
+                    <input type="text" ng-model="formData.product" class="form-control" />
                 </td>
                 <td>
-                    <input type="email" ng-model="formData.user_email" class="form-control" />
+                    <input type="email" ng-model="formData.price" class="form-control" />
                 </td>
                 <td>
-                    <input type="hidden" ng-model="formData.data.id" />
+                    <input type="hidden" ng-model="formData.data.uuid" />
                     <a class="btn btn-success" ng-click="editData()"><em class="fa fa-save"></em></a>
                     <a class="btn btn-danger" ng-click="reset()"><em class="fa fa-times"></em></a>
                 </td>
@@ -77,7 +84,7 @@
             $scope.success = false;
  
             $scope.getTemplate = function(data) {
-                if (data.uuid === $scope.formData.id) {
+                if (data.uuid === $scope.formData.uuid) {
                     return 'edit';
                 } else {
                     return 'display';
